@@ -1,0 +1,16 @@
+PODS:
+  - IPaFileCache (0.1.0)
+
+DEPENDENCIES:
+  - IPaFileCache (from `../`)
+
+EXTERNAL SOURCES:
+  IPaFileCache:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  IPaFileCache: 180a506cafb06704139361b07809c3764ba2d7d4
+
+PODFILE CHECKSUM: 151997d12f4bc2fc4deb1639e6421615fae127db
+
+COCOAPODS: 1.10.1
