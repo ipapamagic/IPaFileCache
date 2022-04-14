@@ -7,42 +7,21 @@
 
 import UIKit
 import IPaSecurity
-public class IPaFileCache: NSObject {
+public class IPaFileCache: NSCache<NSURL,NSData> {
     public static let shared = IPaFileCache()
-    lazy var cachePath:String = {
-        var cachePath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0]
-        cachePath = (cachePath as NSString).appendingPathComponent("IPaFileCache")
-        let fileMgr = FileManager.default
-        if fileMgr.fileExists(atPath: cachePath) {
-            //remove cache at begining
-            try? fileMgr.removeItem(atPath: cachePath)
-        }
-        try? fileMgr.createDirectory(atPath: cachePath, withIntermediateDirectories: true, attributes: nil)
-        return cachePath
-    }()
-    public func cacheFilePath(for url:URL) -> String  {
-        return (cachePath as NSString ).appendingPathComponent(url.absoluteString.md5String ?? url.absoluteString) as String
+    @inlinable public func cacheData(for url:URL) -> Data? {
+        return self.object(forKey: url as NSURL) as? Data
     }
-    public func cacheFileData(for url:URL) -> Data?  {
-        let path = self.cacheFilePath(for:url)
-        if !FileManager.default.fileExists(atPath: path) {
-            return nil
-        }
-        
-        return try? Data(contentsOf: URL(fileURLWithPath:path))
+    @inlinable public func setCache(_ data:Data,for url:URL) {
+        self.setObject(data as NSData, forKey: url as NSURL)
     }
-    @discardableResult
-    public func moveToCache(for url:URL,from fileUrl:URL) -> URL {
-        let path = self.cacheFilePath(for:url)
-        let pathUrl = URL(fileURLWithPath: path)
-        try? FileManager.default.moveItem(at: fileUrl, to: pathUrl)
-        return pathUrl
+}
+public class IPaImageCache: NSCache<NSURL,UIImage> {
+    public static let shared = IPaImageCache()
+    @inlinable public func cacheImage(for url:URL) -> UIImage? {
+        return self.object(forKey: url as NSURL)
     }
-    @discardableResult
-    public func copyToCache(for url:URL,from fileUrl:URL) -> URL {
-        let path = self.cacheFilePath(for:url)
-        let pathUrl = URL(fileURLWithPath: path)
-        try? FileManager.default.copyItem(at: fileUrl, to: pathUrl)
-        return pathUrl
+    @inlinable public func setCache(_ image:UIImage,for url:URL) {
+        self.setObject(image, forKey: url as NSURL)
     }
 }
