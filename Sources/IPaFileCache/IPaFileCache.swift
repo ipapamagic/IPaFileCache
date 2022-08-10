@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import IPaSecurity
 public class IPaFileCache: NSCache<NSURL,NSData> {
     public static let shared = IPaFileCache()
     @inlinable public func cacheData(for url:URL) -> Data? {
