@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'IPaFileCache'
-  s.version          = '1.2'
+  s.version          = '1.2.0'
   s.summary          = 'Easy way to manage file cache'
   s.swift_version    = '5.3'
 
